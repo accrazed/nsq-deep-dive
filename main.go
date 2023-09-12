@@ -23,28 +23,28 @@ func main() {
 	msgs := []*src.Message{
 		{
 			Topic: "First Topic",
-			Payload: &src.MessagePayload{
+			Payload: src.MessagePayload{
 				Status: 200,
 				Body:   "Hello!! I'm Amelia!",
 			},
 		},
 		{
 			Topic: "Second Topic",
-			Payload: &src.MessagePayload{
+			Payload: src.MessagePayload{
 				Status: 201,
 				Body:   "Hello!! I'm Liz! I sent a 201",
 			},
 		},
 		{
 			Topic: "Third Topic",
-			Payload: &src.MessagePayload{
+			Payload: src.MessagePayload{
 				Status: 404,
 				Body:   "Hello!! I'm a 404!",
 			},
 		},
 		{
 			Topic: "First Topic",
-			Payload: &src.MessagePayload{
+			Payload: src.MessagePayload{
 				Status: 200,
 				Body:   "Hello Amelia!! I'm also Amelia!",
 			},

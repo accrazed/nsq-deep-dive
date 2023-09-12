@@ -6,16 +6,6 @@ import (
 	"github.com/nsqio/go-nsq"
 )
 
-type Message struct {
-	Topic   string          `json:"topic"`
-	Payload *MessagePayload `json:"payload"`
-}
-
-type MessagePayload struct {
-	Status int    `json:"status"`
-	Body   string `json:"body"`
-}
-
 type Publisher struct {
 	producer *nsq.Producer
 }

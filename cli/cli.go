@@ -10,8 +10,9 @@ import (
 
 func RunCLI() {
 	app := &cli.App{
-		Name:        "NSQ Deep Dive",
-		Description: "Publish and Consume messages on your local NSQ cluster",
+		Name:                      "NSQ Deep Dive",
+		Description:               "Publish and Consume messages on your local NSQ cluster",
+		DisableSliceFlagSeparator: true,
 		Commands: []*cli.Command{
 			{
 				Name:    "publish",
@@ -57,14 +58,15 @@ func RunCLI() {
 						Required: true,
 					},
 					&cli.StringFlag{
-						Name:     "topic",
-						Aliases:  []string{"t"},
-						Usage:    "the topic to consume messages from",
+						Name:    "topic",
+						Aliases: []string{"t"},
+						Usage:   "the topic to consume messages from",
+
 						Required: true,
 					},
 					&cli.UintFlag{
 						Name:     "handlers",
-						Aliases:  []string{"h"},
+						Aliases:  []string{"n"},
 						Usage:    "the number of concurrent handlers to create for consumption",
 						Required: true,
 					},
@@ -76,7 +78,8 @@ func RunCLI() {
 
 	err := app.Run(os.Args)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+		return
 	}
 }
 
@@ -87,8 +90,8 @@ func DoPublish(ctx *cli.Context) error {
 	statuses := ctx.IntSlice("statuses")
 
 	if len(rawMessages) != len(statuses) {
-		return fmt.Errorf("inequal number of messages to statuses (%d : %d)",
-			len(rawMessages), len(statuses))
+		return fmt.Errorf("inequal number of messages to statuses (%#v : %#v)",
+			rawMessages, statuses)
 	}
 
 	messages := []*src.Message{}

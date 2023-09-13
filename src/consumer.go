@@ -16,7 +16,7 @@ type Consumer struct {
 
 func NewConsumer(topic, addr string, numHandlers int) (*Consumer, error) {
 	config := nsq.NewConfig()
-	consumer, err := nsq.NewConsumer(topic, "", config)
+	consumer, err := nsq.NewConsumer(topic, "deep-dive-channel", config)
 	if err != nil {
 		return nil, err //TODO: more comprehensive error scheme
 	}
@@ -35,20 +35,21 @@ func NewConsumer(topic, addr string, numHandlers int) (*Consumer, error) {
 }
 
 func (c *Consumer) HandleMessage(m *nsq.Message) error {
-	message := &Message{}
+	messagePay := &MessagePayload{}
 
-	if err := json.Unmarshal(m.Body, message); err != nil {
+	if err := json.Unmarshal(m.Body, &messagePay); err != nil {
 		return err //TODO: more comprehensive error scheme
 	}
 
 	// Random chance to throw error
-	if c.r.Int()%2 == 0 {
-		return fmt.Errorf("random error when handling message: %#v", m)
+	if c.r.Int()%5 == 0 {
+		return fmt.Errorf("error when handling message: ( %s : %d )",
+			messagePay.Body, messagePay.Status)
 	}
 
 	// "Process" the message
-	fmt.Printf("New Message!\nTopic: %s\nMessage: %s\nStatus: %d\n",
-		message.Topic, message.Payload.Body, message.Payload.Status)
+	fmt.Printf("New Message!\nMessage: %s\nStatus: %d\n\n",
+		messagePay.Body, messagePay.Status)
 
 	return nil
 }

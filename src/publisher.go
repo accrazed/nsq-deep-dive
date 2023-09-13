@@ -29,7 +29,7 @@ func (p *Publisher) PublishMessages(messages ...*Message) error {
 			return err //TODO: more comprehensive error scheme
 		}
 
-		if err := p.producer.Publish(m.Topic, payload); err != nil {
+		if err := p.producer.PublishAsync(m.Topic, payload, nil); err != nil {
 			return err
 		}
 	}

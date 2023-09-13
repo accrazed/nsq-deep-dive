@@ -36,3 +36,7 @@ func (p *Publisher) PublishMessages(messages ...*Message) error {
 
 	return nil
 }
+
+func (p *Publisher) Stop() {
+	p.producer.Stop()
+}
